@@ -1,0 +1,18 @@
+.searchBar button{
+    border-radius: 4px;
+    width: 60px;
+    background-color: rgb(197, 213, 243);
+    transition: 0.5s;
+}
+.searchBar button:hover{
+    background-color: rgb(77, 121, 202);
+}
+.searchBar input{
+    border-radius: 5px;
+}
+@media only screen and (max-width: 768px) {
+.searchBar input{
+    width: 150px;
+}
+
+}

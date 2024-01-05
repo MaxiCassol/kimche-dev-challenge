@@ -1,0 +1,42 @@
+.containerPaginado{
+    margin-left: 30%;
+    
+}
+
+.paginado{
+    background-color: black;
+    color: white;
+    font-size: 14px;
+    border: solid rgb(187, 187, 187) 2px;
+    font-weight: bold;
+    display: inline;
+    border-radius: 20%;
+    cursor: pointer;
+    padding: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    transition: 0.8s;
+}
+
+.paginado-active{
+    font-weight: bold;
+    padding: 8px;
+    border-radius: 20%;
+}
+
+.paginado:hover{
+    background-color: rgba(116, 255, 81, 0.253);
+    border: solid  green 2px;
+    border-radius: 2px;
+}
+@media only screen and (max-width: 768px) {
+    .containerPaginado{
+        position: relative;
+        margin-left: 16px;
+    }
+}
+@media screen and (max-width: 500px) {
+    .containerPaginado{
+        margin-left: 16%;
+    }
+}
