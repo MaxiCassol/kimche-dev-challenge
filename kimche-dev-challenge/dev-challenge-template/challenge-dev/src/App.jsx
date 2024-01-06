@@ -21,7 +21,7 @@ function App() {
       const data = await obtenerDatosDeAPI();
         
         if (data && data.results) {
-          setCharacters(data.results);
+          setCharacters(data.results);          
           setTotalPages(data.info.pages);
         } else {
           console.error('Datos no válidos:', data);
@@ -122,6 +122,10 @@ function App() {
     return <p>Cargando...</p>;
   }
 
+  //hardwork but honest
+  const speciesOptions = ['Amfiddians', 'Arbolian Mentirososians', 'Bepisians', 'Bird People', 'Blamphs', 'Bliznarvians', 'Bluubosians', 'Boobloosians', 'Borpocians', 'Broghs', 'Brosephamons', 'Buttmouth', 'Ciancans', 'Courier Flap', 'Crittendians', 'Cromulons', 'Cronenbergs', 'Crustolomons', 'Dangelians', 'Dinosaurs', 'Drumbloxians', 'Ferkisians', 'Flansians', 'Floovians', 'Garblovians', 'Gazorpians','Gear People', 'Giant Telepathic Spiders', 'Gorpathian Dermaks', 'Greebybobes', 'Gromflomites', 'Grunglokians', 'Hambrosians', 'Hamsters In Butts', 'Hot Dogs', 'Hrinchs', 'Humans', 'Kitlers', 'Klaaxzovians', 'Korblockians', 'Kozbians', 'Krootabulans', 'Laarvians', 'Larvaalians', 'Lizard People', 'Magdalians', 'Mantis-people', 'Mega Gargantuans', 'Memory Parasites', 'Moopians', 'Mr. Frundles', 'Mr. Meeseeks', 'Mr. Meeseeks (Kirkland)', 'Mr. Poopybutthole species', 'Mr. Youseeks', 'Narduarvians',  'Nevanians', 'Nippalians', 'Numbericons', 'Nuptians', 'Observers', 'Partially sighted aliens', 'Penps', 'Photography Cyborgs', 'Pizarians', 'Plutonian', 'Post-Apocalyptic Mutants', 'Pripudlians', 'Promotians', 'Quadropians', 'Robobros', 'Scary People', 'Schlami', 'Scorpion Aliens', 'Scrotians', 'Semosites', 'Sentient Dogs', 'Severnians', 'Shimshamians', 'Shipzuvians', 'Slime Aliens', 'Smarkians', 'Smumpians', 'Splorpians', 'Squanchies', 'Squirrels', 'Stair Goblins', 'The Varix', 'Time Cops', 'Traflorkians', 'Tree People', 'Trunk People', 'Tumblorkians', 'Vampire', 'Vulvorvians', 'Wharborgarbors', 'Xenisians', 'Xorjhans', 'Zerillians', 'Zigerions', 'Zombodians'];
+
+
   return (
     <div>
       <div className="searchContainer">
@@ -141,6 +145,7 @@ function App() {
       </div>
         
     <div>
+      <div className="filterContainer">
         <label>
           Status:
           <select
@@ -164,11 +169,18 @@ function App() {
       <div>
         <label>
           Species:
-          <input
+          <select
             type="text"
             value={filterSpecies}
             onChange={(e) => setFilterSpecies(e.target.value)}
-          />
+          >
+            <option value="">Select Species</option>
+    {speciesOptions.map((option, index) => (
+      <option key={index} value={option}>
+        {option}
+      </option>
+      ))}
+          </select>
         </label>
       </div>
       <div>
@@ -194,6 +206,8 @@ function App() {
         </label>
       </div>
     <button onClick={resetFilters}>Reset Filters</button> 
+      </div>
+        
 
       <div className="container">
         {characters.length > 0 ? (
@@ -228,11 +242,11 @@ function App() {
 
         <div>
           <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-            Anterior
+            Prev
           </button>
-          <span>Página {currentPage} de {totalPages}</span>
+          <span>Page {currentPage} of {totalPages}</span>
           <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-            Siguiente
+            Next
           </button>
         </div>
       </div>
