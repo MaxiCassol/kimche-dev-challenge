@@ -196,15 +196,46 @@ function App() {
         <div className="modal" onClick={cerrarDetalle}>
           <div className="modalContent" onClick={(e) => e.stopPropagation()}>
             <span className="close" onClick={cerrarDetalle}>X</span>
-            <img src={characters[detalleIndex].image} alt={characters[detalleIndex].name} />
-            <h2>{characters[detalleIndex].name}</h2>
-            {characters[detalleIndex].status && <p>Status: {characters[detalleIndex].status}</p>}
-            {characters[detalleIndex].gender && <p>Gender: {characters[detalleIndex].gender}</p>}
-            {characters[detalleIndex].species && <p>Species: {characters[detalleIndex].species}</p>}
-            {characters[detalleIndex].type && <p>Type: {characters[detalleIndex].type}</p>}
-            {characters[detalleIndex].location.name && <p>Location: {characters[detalleIndex].location.name}</p>}
-            {characters[detalleIndex].origin.name && <p>Origin: {characters[detalleIndex].origin.name}</p>}
-            {characters[detalleIndex].dimension && <p>Dimension: {characters[detalleIndex].dimension}</p>}
+            <div className="modalImage"><img src={characters[detalleIndex].image} alt={characters[detalleIndex].name} /></div>    
+            <div className="info">
+              <h2>{characters[detalleIndex].name}</h2>
+            {characters[detalleIndex].status &&
+            <p>
+              <span className="label">Status:</span>
+              <span>{characters[detalleIndex].status}</span>
+            </p>}
+            {characters[detalleIndex].gender && 
+            <p>
+              <span className="label">Gender:</span>
+              <span>{characters[detalleIndex].gender}</span>
+            </p>}
+            {characters[detalleIndex].species && 
+            <p>
+              <span className="label">Species:</span>
+              <span>{characters[detalleIndex].species}</span>
+              </p>}
+            {characters[detalleIndex].type && 
+            <p>
+              <span className="label">Type:</span> 
+              <span>{characters[detalleIndex].type}</span>
+              </p>}
+            {characters[detalleIndex].location.name && 
+            <p>
+              <span className="label">Location:</span> 
+              <span>{characters[detalleIndex].location.name}</span>
+              </p>}
+            {characters[detalleIndex].origin.name && 
+            <p>
+              <span className="label">Origin:</span> 
+              <span>{characters[detalleIndex].origin.name}</span>
+              </p>}
+            {characters[detalleIndex].dimension && 
+            <p>
+              <span className="label">Dimension:</span>
+              <span>{characters[detalleIndex].dimension}</span>
+              </p>}
+              </div>        
+            
           </div>
         </div>
       )}
