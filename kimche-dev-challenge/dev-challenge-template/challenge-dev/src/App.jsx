@@ -20,7 +20,10 @@ function App() {
 
   useEffect(() => {    
     const fetchDataAndSpecies = async () => {
-      await dataHandler(
+      await uniqueSpecies(setAllSpecies);
+
+      if(searchTerm === ''){
+        await dataHandler(
         currentPage,
         filterStatus,
         filterSpecies,
@@ -32,12 +35,13 @@ function App() {
         changedFilters,
         setChangedFilters  
       );
-      
-      await uniqueSpecies(setAllSpecies);
+      // }else{
+      //   await searchHandler(searchTerm, setCharacters, setTotalPages, setSearchTerm, currentPage, setCurrentPage)
+      }                  
     }
 
     fetchDataAndSpecies();
-  }, [currentPage, filterStatus, filterSpecies, filterGender, detalleVisible, changedFilters]);
+  }, [currentPage, filterStatus, filterSpecies, filterGender, detalleVisible, changedFilters, searchTerm]);
 
   //pagination
   const handlePageChange = (newPage) => {
@@ -57,13 +61,13 @@ function App() {
 
   //Search name or ID
   const handlerSearch = async () => {    
-    await searchHandler(searchTerm, setCharacters, setTotalPages, setSearchTerm, setCurrentPage);
+    await searchHandler(
+      searchTerm, 
+      setCharacters, 
+      setTotalPages,  
+      currentPage);
     setChangedFilters(false);
   };
-
-  // const handleFilters = async () => {
-  //   await handleFilter(filterStatus, filterSpecies, filterGender, setCurrentPage, setCharacters, setTotalPages, setLoading);
-  // };
 
   //Filters reset 
   const resetFilters = () => {
@@ -78,7 +82,7 @@ function App() {
   if (loading) {
     return <p>Cargando...</p>;
   }
-
+  
 
   return (
     <div>
@@ -90,11 +94,16 @@ function App() {
           placeholder='Search by Name or ID'
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handlerSearch();
+            }
+          }}
         />
         </label>
         <button 
         className='searchButton'
-        onClick={() => handlerSearch()}      
+        onClick={() => handlerSearch()}     
         >🔍search</button>
       </div>
         
@@ -184,19 +193,18 @@ function App() {
       </div> 
 
       {characters.length > 0 && detalleVisible && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={cerrarDetalle}>&times;</span>
+        <div className="modal" onClick={cerrarDetalle}>
+          <div className="modalContent" onClick={(e) => e.stopPropagation()}>
+            <span className="close" onClick={cerrarDetalle}>X</span>
             <img src={characters[detalleIndex].image} alt={characters[detalleIndex].name} />
             <h2>{characters[detalleIndex].name}</h2>
-            <p>Status: {characters[detalleIndex].status}</p>
-            <p>Gender: {characters[detalleIndex].gender}</p>
-            <p>Species: {characters[detalleIndex].species}</p>
-            <p>Type: {characters[detalleIndex].type}</p>
-            <p>Location: {characters[detalleIndex].location}</p>
-            <p>Origin: {characters[detalleIndex].origin}</p>
-            <p>Dimension: {characters[detalleIndex].dimension}</p>
-
+            {characters[detalleIndex].status && <p>Status: {characters[detalleIndex].status}</p>}
+            {characters[detalleIndex].gender && <p>Gender: {characters[detalleIndex].gender}</p>}
+            {characters[detalleIndex].species && <p>Species: {characters[detalleIndex].species}</p>}
+            {characters[detalleIndex].type && <p>Type: {characters[detalleIndex].type}</p>}
+            {characters[detalleIndex].location.name && <p>Location: {characters[detalleIndex].location.name}</p>}
+            {characters[detalleIndex].origin.name && <p>Origin: {characters[detalleIndex].origin.name}</p>}
+            {characters[detalleIndex].dimension && <p>Dimension: {characters[detalleIndex].dimension}</p>}
           </div>
         </div>
       )}
