@@ -37,6 +37,7 @@ body {
   }
 }
 
+/* Estilos para el detail y el botón de cerrar */
 .modal {
   display: flex;
   position: fixed;
@@ -92,19 +93,25 @@ body {
   margin-left: 60%;
 }
 
-/* Estilo para el contenedor del input y el botón de búsqueda */
-
+/* Estilos para los search y el botón */
 .searchContainer {
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: center;
   margin-top: 20px;
 }
 
 .search {
-  padding: 11.5px;
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
+  padding: 13px;
+  width: 100%;
+  border-radius: 8px 0 0 8px;  
+  border: 1px solid #ccc; 
+  
+}
+.search:focus {
+  border: none;
+  border-radius: 8px 0 0 8px;
   border: 1px solid #ccc; 
 }
 .searchContainer button {
@@ -152,6 +159,22 @@ body {
   border-radius: 4px;
 }
 
+/* Aplicar estilos paginado */
+.paginationContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.paginationButton{
+  color: black;
+  background-color: aliceblue;
+  font-weight: bold;
+  margin: 1rem;
+  font-size:medium;
+  padding: 5px;
+}
+
 @media screen and (max-width: 768px) {
   .container {
     justify-content: center;
@@ -161,5 +184,4 @@ body {
     width: 100%;
   }
 
-  /* Ajustar estilos para tamaños de pantalla más pequeños si es necesario */
 }

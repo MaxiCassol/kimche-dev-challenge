@@ -104,7 +104,7 @@ function App() {
         <button 
         className='searchButton'
         onClick={() => handlerSearch()}     
-        >🔍search</button>
+        >aa🔍aa</button>
       </div>
         
     <div className="filterContainer">
@@ -240,12 +240,18 @@ function App() {
         </div>
       )}
 
-        <div>
-          <button onClick={() => handlePageChange(currentPage - 1)} hidden={currentPage === 1} >
+        <div className='paginationContainer'>
+          <button 
+          className='paginationButton'
+          onClick={() => handlePageChange(currentPage - 1)} 
+          hidden={currentPage === 1} >
             Prev
           </button>
-          <span>Page {currentPage} of {totalPages}</span>
-          <button onClick={() => handlePageChange(currentPage + 1)} hidden={currentPage === totalPages}>
+          <span>Page: {currentPage} / {totalPages}</span>
+          <button 
+          className='paginationButton'
+          onClick={() => handlePageChange(currentPage + 1)} 
+          hidden={currentPage === totalPages}>
             Next
           </button>
         </div>
