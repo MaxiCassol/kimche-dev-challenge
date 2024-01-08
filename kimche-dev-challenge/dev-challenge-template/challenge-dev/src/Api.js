@@ -1,23 +1,12 @@
 // Datos de la API externa
-export async function obtenerDatosDeAPI(){
-        const response = await fetch('https://rickandmortyapi.com/api/character');
-    
-        if (!response.ok) {
-            throw new Error('No se pudo obtener datos de la API externa');
-        }
-        const datos = await response.json();
-        console.log(datos);
-        return datos;
-}
 
-export async function fetchDataByPAGE(currentPage){
-    const response = await fetch(`https://rickandmortyapi.com/api/character/?page=${currentPage}`);
-        
-        if (!response.ok) {
-            throw new Error('No se pudo obtener datos de la API externa');
-        }
-        const datos = await response.json();
-        return datos;
+export async function fetchDataWithOptions(currentPage, filterStatus, filterSpecies, filterGender) {
+    let url = `https://rickandmortyapi.com/api/character/?page=${currentPage}&status=${filterStatus}&species=${filterSpecies}&gender=${filterGender}`
+
+    const response = await fetch(url);
+    const datos = await response.json();
+    
+    return datos;
 }
 
 export async function fetchDataByID(id){
@@ -30,29 +19,83 @@ export async function fetchDataByID(id){
         return datos;
 }
 
-export async function fetchDataByNAME(name){
-    const response = await fetch(`https://rickandmortyapi.com/api/character/?name=${name}`);
+export async function fetchDataByNAME(searchTerm) {
+    try {
+        const response = await fetch(`https://rickandmortyapi.com/api/character/?name=${searchTerm}`);
+
+        if (!response.ok) {
+            throw new Error('No se pudo obtener datos de la API externa');
+        }
+  
+      const data = await response.json();
+      console.log(data);
+  
+      if (data.results) {
+        const characters = data.results.map(character => ({
+          id: character.id,
+          name: character.name,
+          status: character.status,
+          species: character.species,
+          gender: character.gender,
+          origin: character.origin.name,
+          location: character.location.name,
+          image: character.image,
+        }));
+  
+        return characters;
+      } else {
+        throw new Error('No se encontró ningún personaje con ese nombre');
+      }
+    } catch (error) {
+      console.error('Error al obtener datos:', error);
+      throw error; 
+    }
+  }
+// export async function fetchDataByNAME(searchTerm){
+//     const response = await fetch(`https://rickandmortyapi.com/api/character/?name=${searchTerm}`);
+        
+//         if (!response.ok) {
+//             throw new Error('No se pudo obtener datos de la API externa');
+//         }
+//         const datos = await response.json();
+//         return datos;
+// }
+
+// export async function fetchDataByFILTERS(filterStatus, filterSpecies, filterGender){
+//     let url = `https://rickandmortyapi.com/api/character/?status=${filterStatus}&species=${filterSpecies}&gender=${filterGender}`;
+
+//     const response = await fetch(url);
+
+//     if (!response.ok) {
+//         throw new Error('No se pudo obtener datos de la API externa');
+//     }
+//         const datos = await response.json();
+//         return datos;
+// }
+
+export async function fetchAllSpecies() {
+    let allData = [];
+    for (let i = 1; i <= 42; i++) {
+        const response = await fetch(`https://rickandmortyapi.com/api/character/?page=${i}`);
         
         if (!response.ok) {
             throw new Error('No se pudo obtener datos de la API externa');
         }
+    
         const datos = await response.json();
-        return datos;
-}
-
-export async function fetchDataByFILTERS(filterStatus, filterSpecies, filterGender){
-    let url = `https://rickandmortyapi.com/api/character/?status=${filterStatus}&species=${filterSpecies}&gender=${filterGender}`;
-
-    const response = await fetch(url);
-
-    if (!response.ok) {
-        throw new Error('No se pudo obtener datos de la API externa');
+        allData = allData.concat(datos.results);
     }
-        const datos = await response.json();
-        return datos;
+    const uniqueSpecies = new Set();
+    allData.forEach((character) => {
+        if (character.species) {
+            uniqueSpecies.add(character.species);
+        }
+    });
+    const speciesList =  Array.from(uniqueSpecies)
+    // console.log(speciesList);
+    return speciesList;
+
 }
-
-
 
 
 

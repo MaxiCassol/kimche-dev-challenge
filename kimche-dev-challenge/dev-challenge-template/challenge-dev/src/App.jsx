@@ -1,5 +1,7 @@
-import { obtenerDatosDeAPI, fetchDataByID, fetchDataByNAME, fetchDataByPAGE, fetchDataByFILTERS } from './Api'
-import { useState, useEffect  } from 'react'; 
+import dataHandler from './components/dataHandler';
+import { useState, useEffect  } from 'react';
+import { searchHandler } from './components/searchHandler';
+import uniqueSpecies from './components/getSpecies'
 import './App.css'
 
 function App() {
@@ -9,57 +11,33 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [detalleVisible, setDetalleVisible] = useState(false);
   const [detalleIndex, setDetalleIndex] = useState(0);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState();
+  const [searchTerm, setSearchTerm] = useState('');  
+  const [allSpecies, setAllSpecies] = useState([]);
+  const [changedFilters, setChangedFilters] = useState(false);
+  const [filterStatus, setFilterStatus] = useState('');
   const [filterSpecies, setFilterSpecies] = useState('');
   const [filterGender, setFilterGender] = useState('');
-  
-  useEffect(() => {
-  const fetchData = async () => {
-    try {
-      setLoading(true);    
-      const data = await obtenerDatosDeAPI();
-        
-        if (data && data.results) {
-          setCharacters(data.results);          
-          setTotalPages(data.info.pages);
-        } else {
-          console.error('Datos no válidos:', data);
-        }
+
+  useEffect(() => {    
+    const fetchDataAndSpecies = async () => {
+      await dataHandler(
+        currentPage,
+        filterStatus,
+        filterSpecies,
+        filterGender,
+        setCharacters,
+        setTotalPages,
+        setLoading,
+        setCurrentPage,
+        changedFilters,
+        setChangedFilters  
+      );
       
-      if(filterStatus || filterGender || filterSpecies) {
-        // Si hay un filtro de búsqueda, utiliza fetchDataByFILTERS
-        try {
-          const data = await fetchDataByFILTERS(filterStatus, filterSpecies, filterGender);
-          if (data && data.results) {
-            setCharacters(data.results);
-            setTotalPages(data.info.pages);
-          }
-        } catch (error) {
-          console.error('Datos no válidos:', data);
-        }finally {
-          setSearchTerm('');
-        }
-      }
-        
-      if(currentPage !== 1){
-        const data = await fetchDataByPAGE(currentPage);
+      await uniqueSpecies(setAllSpecies);
+    }
 
-        if (data && data.results) {
-          setCharacters(data.results);
-          setTotalPages(data.info.pages);
-        } else {
-          console.error('Datos no válidos:', data);
-        }
-      }   
-
-    } catch (error) {
-      console.error('Error al obtener datos:', error);
-    } finally {
-      setLoading(false);
-    }};
-    fetchData();
-  }, [currentPage, filterStatus, filterSpecies, filterGender, detalleVisible]);
+    fetchDataAndSpecies();
+  }, [currentPage, filterStatus, filterSpecies, filterGender, detalleVisible, changedFilters]);
 
   //pagination
   const handlePageChange = (newPage) => {
@@ -78,52 +56,28 @@ function App() {
   };
 
   //Search name or ID
-  const handlerSearch = async (searchTerm)=>{
-    if(searchTerm) {
-      setCurrentPage(1);
-      try{
-        if(isNaN(searchTerm)){ 
-          let data = await fetchDataByNAME(searchTerm)
-          if (data && data.results) {
-            setCharacters(data.results);
-            setTotalPages(data.info.pages);
-          }
-        }
-        if(!isNaN(searchTerm)){
-          let data = await fetchDataByID(searchTerm)
-          if (data) {
-            setCharacters([data]);
-            setTotalPages(1);}
-        }       
-      } catch {
-        console.error('Datos no válidos:');
-      }finally {
-        setSearchTerm(''); 
-      }
-    }
-    if(searchTerm.length === 0){
-      const data = await obtenerDatosDeAPI();
-      if (data && data.results) {
-        setCharacters(data.results);
-        setTotalPages(data.info.pages);
-      }
-    }
-  }  
+  const handlerSearch = async () => {    
+    await searchHandler(searchTerm, setCharacters, setTotalPages, setSearchTerm, setCurrentPage);
+    setChangedFilters(false);
+  };
+
+  // const handleFilters = async () => {
+  //   await handleFilter(filterStatus, filterSpecies, filterGender, setCurrentPage, setCharacters, setTotalPages, setLoading);
+  // };
 
   //Filters reset 
   const resetFilters = () => {
     setFilterStatus('');
     setFilterSpecies('');
     setFilterGender('');
+    setCurrentPage(1);
+    setChangedFilters(false);
   };
 
   //loading 
   if (loading) {
     return <p>Cargando...</p>;
   }
-
-  //hardwork but honest
-  const speciesOptions = ['Amfiddians', 'Arbolian Mentirososians', 'Bepisians', 'Bird People', 'Blamphs', 'Bliznarvians', 'Bluubosians', 'Boobloosians', 'Borpocians', 'Broghs', 'Brosephamons', 'Buttmouth', 'Ciancans', 'Courier Flap', 'Crittendians', 'Cromulons', 'Cronenbergs', 'Crustolomons', 'Dangelians', 'Dinosaurs', 'Drumbloxians', 'Ferkisians', 'Flansians', 'Floovians', 'Garblovians', 'Gazorpians','Gear People', 'Giant Telepathic Spiders', 'Gorpathian Dermaks', 'Greebybobes', 'Gromflomites', 'Grunglokians', 'Hambrosians', 'Hamsters In Butts', 'Hot Dogs', 'Hrinchs', 'Humans', 'Kitlers', 'Klaaxzovians', 'Korblockians', 'Kozbians', 'Krootabulans', 'Laarvians', 'Larvaalians', 'Lizard People', 'Magdalians', 'Mantis-people', 'Mega Gargantuans', 'Memory Parasites', 'Moopians', 'Mr. Frundles', 'Mr. Meeseeks', 'Mr. Meeseeks (Kirkland)', 'Mr. Poopybutthole species', 'Mr. Youseeks', 'Narduarvians',  'Nevanians', 'Nippalians', 'Numbericons', 'Nuptians', 'Observers', 'Partially sighted aliens', 'Penps', 'Photography Cyborgs', 'Pizarians', 'Plutonian', 'Post-Apocalyptic Mutants', 'Pripudlians', 'Promotians', 'Quadropians', 'Robobros', 'Scary People', 'Schlami', 'Scorpion Aliens', 'Scrotians', 'Semosites', 'Sentient Dogs', 'Severnians', 'Shimshamians', 'Shipzuvians', 'Slime Aliens', 'Smarkians', 'Smumpians', 'Splorpians', 'Squanchies', 'Squirrels', 'Stair Goblins', 'The Varix', 'Time Cops', 'Traflorkians', 'Tree People', 'Trunk People', 'Tumblorkians', 'Vampire', 'Vulvorvians', 'Wharborgarbors', 'Xenisians', 'Xorjhans', 'Zerillians', 'Zigerions', 'Zombodians'];
 
 
   return (
@@ -140,26 +94,27 @@ function App() {
         </label>
         <button 
         className='searchButton'
-        onClick={()=>handlerSearch(searchTerm)}      
-        >Search</button>
+        onClick={() => handlerSearch()}      
+        >🔍search</button>
       </div>
         
-    <div>
-      <div className="filterContainer">
+    <div className="filterContainer">
+      <div >
         <label>
-          Status:
           <select
+            className="selectFilter"
             value={filterStatus}
             onChange={(e) => {
               const selectedStatus = e.target.value;
               if (selectedStatus === "all") {
-                resetFilters();
+                setFilterStatus('');
               } else {
                 setFilterStatus(selectedStatus);
+                setChangedFilters(true);
               }
             }}
           >
-            <option value="all">All</option>
+            <option value="all">Status...</option>
             <option value="alive">Alive</option>
             <option value="dead">Dead</option>
             <option value="unknown">Unknown</option>            
@@ -168,36 +123,39 @@ function App() {
       </div>
       <div>
         <label>
-          Species:
           <select
+            className="selectFilter"
             type="text"
             value={filterSpecies}
-            onChange={(e) => setFilterSpecies(e.target.value)}
+            onChange={(e) => {
+              setFilterSpecies(e.target.value)
+              setChangedFilters(true)}}
           >
-            <option value="">Select Species</option>
-    {speciesOptions.map((option, index) => (
-      <option key={index} value={option}>
-        {option}
-      </option>
-      ))}
+            <option value="">Species...</option>
+            {allSpecies.map((option, index) => (
+              <option key={index} value={option}>
+              {option}
+              </option>
+            ))}
           </select>
         </label>
       </div>
       <div>
         <label>
-          Gender:
           <select
+            className="selectFilter"
             value={filterGender}
             onChange={(e) => {
               const selectedStatus = e.target.value;
               if (selectedStatus === "all") {
-                resetFilters();
+                setFilterGender('');
               } else {
-                setFilterGender(selectedStatus);
+                setFilterGender(selectedStatus);                
+                setChangedFilters(true);
               }
             }}
             >
-              <option value="all">All</option>
+              <option value="all">Gender...</option>
               <option value="female">Female</option>
               <option value="male">Male</option>
               <option value="genderless ">Genderless </option> 
@@ -205,7 +163,10 @@ function App() {
             </select>          
         </label>
       </div>
-    <button onClick={resetFilters}>Reset Filters</button> 
+    <button 
+    className="resetButton"
+    onClick={resetFilters}
+    >Reset filters</button> 
       </div>
         
 
@@ -241,11 +202,11 @@ function App() {
       )}
 
         <div>
-          <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+          <button onClick={() => handlePageChange(currentPage - 1)} hidden={currentPage === 1} >
             Prev
           </button>
           <span>Page {currentPage} of {totalPages}</span>
-          <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+          <button onClick={() => handlePageChange(currentPage + 1)} hidden={currentPage === totalPages}>
             Next
           </button>
         </div>

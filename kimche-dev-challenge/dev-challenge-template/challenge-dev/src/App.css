@@ -89,7 +89,7 @@ body {
 }
 .searchButton {
   padding: 10px;
-  background-color: #007bff;
+  background-color: white;
   color: #fff;
   cursor: pointer;
   border-top-right-radius: 8px;
@@ -98,12 +98,13 @@ body {
 
 
 /* Estilo para la fila de filtros y el botón de reset */
-.filters-row {
+.filterContainer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 80%;
-  margin-bottom: 10px;
+  justify-content:space-around;
+  flex-wrap: wrap;
+
+  margin-top: 20px;
 }
 
 /* Estilos para los filtros y el botón de reset */
@@ -112,10 +113,15 @@ body {
   margin-right: 10px;
 }
 
+.selectFilter {
+  width: 18rem;
+  padding: 3px;
+}
+
 /* Aplicar estilos al botón de reset */
-.reset-button {
+.resetButton {
   padding: 10px;
-  background-color: #ccc;
+  background-color: #535353;
   border: none;
   cursor: pointer;
   border-radius: 4px;
