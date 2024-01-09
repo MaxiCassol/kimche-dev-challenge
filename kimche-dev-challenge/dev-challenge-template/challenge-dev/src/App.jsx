@@ -83,8 +83,8 @@ function App() {
   //loading 
   if (loading) {
     return <div>
-      <p className="searchContainer">Loading...</p>
-      <div style="width:100%;height:0;padding-bottom:55%;position:relative;"><iframe src="https://giphy.com/embed/vFtGDTXTNr4Z3uG4St" width="100%" height="100%" style="position:absolute" frameBorder="0" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/rickandmorty-vFtGDTXTNr4Z3uG4St">via GIPHY</a></p>
+      <p className="searchContainer">Loading...</p>      
+      <iframe src="https://giphy.com/embed/vFtGDTXTNr4Z3uG4St" alt="Loading" width="100%" />
       </div>;
   }
   
