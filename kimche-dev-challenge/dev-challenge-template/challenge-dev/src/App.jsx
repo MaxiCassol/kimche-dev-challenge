@@ -71,6 +71,14 @@ function App() {
     }
   };
 
+  //Button home
+  const handleHomeButtonClick = async () => {
+    setSearchTerm('');
+    setCurrentPage(1);  
+    resetFilters(); 
+    setInputSearch('')
+  };
+
   //Filters reset 
   const resetFilters = () => {
     setFilterStatus('');
@@ -92,6 +100,12 @@ function App() {
   return (
     <div>
       <div className="searchContainer">
+        <button 
+        className='homeButton'
+        onClick={handleHomeButtonClick}
+      >
+        🏠 Home
+      </button>
         <label>        
         <input
           type="text"

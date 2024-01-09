@@ -25,22 +25,6 @@ export async function fetchDataByID(id){
         return data;
 }
 
-export async function fetchDataByNAME(searchTerm, currentPage) {
-    try {
-        const response = await fetch(`https://rickandmortyapi.com/api/character/?name=${searchTerm}&page=${currentPage}`);
-
-        const data = await response.json();
-
-        console.log(currentPage);
-        console.log(data);
-        return data;
-
-    } catch (error) {
-        console.error('Error al obtener datos:', error);
-        throw error; 
-    }
-}
-
 export async function fetchAllSpecies() {
     let allData = [];
     for (let i = 1; i <= 42; i++) {
