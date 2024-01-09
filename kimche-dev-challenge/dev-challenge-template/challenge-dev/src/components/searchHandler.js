@@ -1,30 +1,16 @@
-import { fetchDataByNAME, fetchDataByID } from '../Api';
+import { fetchDataByID } from '../Api';
 
-export const searchHandler = async (searchTerm, setCharacters, setTotalPages, currentPage) => {
+export const searchHandler = async (inputSearch, setCharacters, setTotalPages, setCurrentPage) => {
   
-    // setCurrentPage(1);
     try {
       let data;
-      if (isNaN(searchTerm)) {
-        data = await fetchDataByNAME(searchTerm, currentPage);
-      } else {
-        data = await fetchDataByID(searchTerm);
-      }
+        data = await fetchDataByID(inputSearch);
       
-      //Si hay un solo resultado
-      if (data) {
         setCharacters([data]);
         setTotalPages(1);
-      }
-      //Si hay un listado de resultados
-      if (data.results) {
-        setCharacters(data.results);
-        setTotalPages(data.info.pages);
-      }
-      
+        setCurrentPage(1);
+            
     } catch {
       console.error('Datos no válidos:');
-    } finally {
-      // setSearchTerm('');
     }
 };

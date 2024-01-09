@@ -1,7 +1,7 @@
 # Desafío para Dev
 
-Nombre postulante: [TU NOMBRE]
-Link a la app en producción: [LINK DEL DEPLOY]
+Nombre postulante: Maximiliano Cassol Montagner
+Link a la app en producción: https://kimche-dev-challenge-seven.vercel.app/
 
 ## Instrucciones
 

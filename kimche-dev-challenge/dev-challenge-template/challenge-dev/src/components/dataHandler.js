@@ -10,18 +10,19 @@ const dataHandler = async (
   setLoading,
   setCurrentPage,
   changedFilters,
-  setChangedFilters  
+  setChangedFilters,
+  searchTerm
 ) => {
   try {
     setLoading(true);
     let data;
 
     if(changedFilters){
-      data = await fetchDataWithOptions(currentPage = 1, filterStatus, filterSpecies, filterGender);  
+      data = await fetchDataWithOptions(currentPage = 1, filterStatus, filterSpecies, filterGender, searchTerm);  
       setCurrentPage(1);
       setChangedFilters(false);
     }else{
-      data = await fetchDataWithOptions(currentPage, filterStatus, filterSpecies, filterGender); 
+      data = await fetchDataWithOptions(currentPage, filterStatus, filterSpecies, filterGender, searchTerm); 
     }
 
     if (data.results) {            

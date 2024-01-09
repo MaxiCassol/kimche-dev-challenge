@@ -11,6 +11,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [detalleVisible, setDetalleVisible] = useState(false);
   const [detalleIndex, setDetalleIndex] = useState(0);
+  const [inputSearch, setInputSearch] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');  
   const [allSpecies, setAllSpecies] = useState([]);
   const [changedFilters, setChangedFilters] = useState(false);
@@ -20,24 +21,21 @@ function App() {
 
   useEffect(() => {    
     const fetchDataAndSpecies = async () => {
+      // Get Species list
       await uniqueSpecies(setAllSpecies);
-
-      if(searchTerm === ''){
-        await dataHandler(
-        currentPage,
-        filterStatus,
-        filterSpecies,
-        filterGender,
-        setCharacters,
-        setTotalPages,
-        setLoading,
-        setCurrentPage,
-        changedFilters,
-        setChangedFilters  
-      );
-      // }else{
-      //   await searchHandler(searchTerm, setCharacters, setTotalPages, setSearchTerm, currentPage, setCurrentPage)
-      }                  
+      // Get data of cards with options
+      await dataHandler(
+          currentPage,
+          filterStatus,
+          filterSpecies,
+          filterGender,
+          setCharacters,
+          setTotalPages,
+          setLoading,
+          setCurrentPage,
+          changedFilters,
+          setChangedFilters,
+          searchTerm)              
     }
 
     fetchDataAndSpecies();
@@ -60,13 +58,17 @@ function App() {
   };
 
   //Search name or ID
-  const handlerSearch = async () => {    
-    await searchHandler(
-      searchTerm, 
+  const handlerSearch = async () => {        
+    if(isNaN(inputSearch)) {
+      setSearchTerm(inputSearch);
+    }else{
+      await searchHandler(
+        inputSearch,       
       setCharacters, 
       setTotalPages,  
-      currentPage);
+      setCurrentPage);
     setChangedFilters(false);
+    }
   };
 
   //Filters reset 
@@ -80,7 +82,10 @@ function App() {
 
   //loading 
   if (loading) {
-    return <p>Cargando...</p>;
+    return <div>
+      <p className="searchContainer">Cargando...</p>
+      <img src="../public/giphy.gif" alt="gifRickAndMorty" width="100%"/>
+      </div>;
   }
   
 
@@ -92,8 +97,8 @@ function App() {
           type="text"
           className='search' 
           placeholder='Search by Name or ID'
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={inputSearch}
+          onChange={(e) => setInputSearch(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               handlerSearch();

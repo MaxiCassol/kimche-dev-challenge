@@ -1,8 +1,9 @@
 // Datos de la API externa
 
-export async function fetchDataWithOptions(currentPage, filterStatus, filterSpecies, filterGender) {
+export async function fetchDataWithOptions(currentPage, filterStatus, filterSpecies, filterGender, searchTerm) {
     try {
-        let url = `https://rickandmortyapi.com/api/character/?page=${currentPage}&status=${filterStatus}&species=${filterSpecies}&gender=${filterGender}`
+        let url = `https://rickandmortyapi.com/api/character/?page=${currentPage}&name=${searchTerm}&status=${filterStatus}&species=${filterSpecies}&gender=${filterGender}`
+        console.log(url);
 
         const response = await fetch(url);  
         const data = await response.json();
@@ -26,9 +27,12 @@ export async function fetchDataByID(id){
 
 export async function fetchDataByNAME(searchTerm, currentPage) {
     try {
-        const response = await fetch(`https://rickandmortyapi.com/api/character/?name=${searchTerm}&?page=${currentPage}`);
+        const response = await fetch(`https://rickandmortyapi.com/api/character/?name=${searchTerm}&page=${currentPage}`);
 
         const data = await response.json();
+
+        console.log(currentPage);
+        console.log(data);
         return data;
 
     } catch (error) {
