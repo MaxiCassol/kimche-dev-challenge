@@ -1,7 +1,7 @@
 # Desafío para Dev
 
 Nombre postulante: Maximiliano Cassol Montagner
-Link a la app en producción: https://kimche-dev-challenge-seven.vercel.app/
+Link a la app en producción: https://rick-and-morty-eight-beta.vercel.app/
 
 ## Instrucciones
 
