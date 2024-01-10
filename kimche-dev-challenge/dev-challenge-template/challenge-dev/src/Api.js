@@ -1,29 +1,61 @@
 // Datos de la API externa
+// queries.graphql
+import client from './components/graphql/graphqlClient';
+import {GET_CHARACTERS} from './components/graphql/queries'
 
-export async function fetchDataWithOptions(currentPage, filterStatus, filterSpecies, filterGender, searchTerm) {
+export default async function fetchDataWithOptions(
+    currentPage,
+    filterStatus,
+    filterSpecies,
+    filterGender,
+    searchTerm
+    ) {
     try {
-        let url = `https://rickandmortyapi.com/api/character/?page=${currentPage}&name=${searchTerm}&status=${filterStatus}&species=${filterSpecies}&gender=${filterGender}`
-        console.log(url);
+        const response = await client.query({
+        query: GET_CHARACTERS,
+        variables: {
+            page: currentPage,
+            name: searchTerm,
+            status: filterStatus,
+            species: filterSpecies,
+            gender: filterGender,
+        },
+        });
 
-        const response = await fetch(url);  
-        const data = await response.json();
-        return data;
-
+        return response.data.characters;
     } catch (error) {
         console.error('Error al obtener datos:', error);
-        throw error; 
+        if (error.response) {
+            console.error('Respuesta del servidor:', error.response.data);
+        }
+        throw error;
     }
 }
 
-export async function fetchDataByID(id){
-    const response = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
+// export async function fetchDataWithOptions(currentPage, filterStatus, filterSpecies, filterGender, searchTerm) {
+//     try {
+//         let url = `https://rickandmortyapi.com/api/character/?page=${currentPage}&name=${searchTerm}&status=${filterStatus}&species=${filterSpecies}&gender=${filterGender}`
+//         console.log(url);
+
+//         const response = await fetch(url);  
+//         const data = await response.json();
+//         return data;
+
+//     } catch (error) {
+//         console.error('Error al obtener datos:', error);
+//         throw error; 
+//     }
+// }
+
+// export async function fetchDataByID(id){
+//     const response = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
         
-        if (!response.ok) {
-            throw new Error('No se pudo obtener datos de la API externa');
-        }
-        const data = await response.json();
-        return data;
-}
+//         if (!response.ok) {
+//             throw new Error('No se pudo obtener datos de la API externa');
+//         }
+//         const data = await response.json();
+//         return data;
+// }
 
 export async function fetchAllSpecies() {
     let allData = [];
@@ -48,41 +80,3 @@ export async function fetchAllSpecies() {
     return speciesList;
 
 }
-
-
-
-
-
-// export async function obtenerDatosDeAPI(currentPage, searchTerm, filterStatus) {
-//     if(currentPage !== 1){
-//         let response = await fetch('https://rickandmortyapi.com/api/character'+ '?page=${currentPage}');
-//         if (!response.ok) {
-//             throw new Error('No se pudo obtener datos de la API externa');}}
-
-//       // Verifica si el término de búsqueda es un número (para buscar por ID) sino busca por name        
-//     if(!isNaN(searchTerm)){
-//         let response = await fetch('https://rickandmortyapi.com/api/character'+ searchTerm);
-//         if (!response.ok) {
-//             throw new Error('No se pudo obtener datos de la API externa');}
-//     }else{        
-//         let response = await fetch('https://rickandmortyapi.com/api/character'+ '&name=${searchTerm}');
-//         if (!response.ok) {
-//             throw new Error('No se pudo obtener datos de la API externa');}}
-
-//     if(filterStatus){
-//         let response = await fetch('https://rickandmortyapi.com/api/character'+ '?page=${currentPage}');
-//         if (!response.ok) {
-//             throw new Error('No se pudo obtener datos de la API externa');}        
-
-
-//     }else{
-//         let response = await fetch('https://rickandmortyapi.com/api/character');
-//         if (!response.ok) {
-//         throw new Error('No se pudo obtener datos de la API externa');
-//     }
-    
-//     const datos = await response.json();
-//     return datos;
-
-//     }
-// }

@@ -1,6 +1,7 @@
-import dataHandler from './components/dataHandler';
+import dataHandler from './components/utils/dataHandler';
+import { ApolloProvider } from '@apollo/client';
+import client from './components/graphql/graphqlClient';
 import { useState, useEffect  } from 'react';
-import { searchHandler } from './components/searchHandler';
 import uniqueSpecies from './components/getSpecies'
 import './App.css'
 
@@ -21,6 +22,7 @@ function App() {
 
   useEffect(() => {    
     const fetchDataAndSpecies = async () => {
+      try {
       // Get Species list
       await uniqueSpecies(setAllSpecies);
       // Get data of cards with options
@@ -35,7 +37,10 @@ function App() {
           setCurrentPage,
           changedFilters,
           setChangedFilters,
-          searchTerm)              
+          searchTerm)   
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }           
     }
 
     fetchDataAndSpecies();
@@ -61,13 +66,6 @@ function App() {
   const handlerSearch = async () => {        
     if(isNaN(inputSearch)) {
       setSearchTerm(inputSearch);
-    }else{
-      await searchHandler(
-        inputSearch,       
-      setCharacters, 
-      setTotalPages,  
-      setCurrentPage);
-    setChangedFilters(false);
     }
   };
 
@@ -98,13 +96,13 @@ function App() {
   
 
   return (
-    <div>
+    <ApolloProvider client={client}>
       <div className="searchContainer">
         <button 
         className='homeButton'
         onClick={handleHomeButtonClick}
       >
-        🏠 Home
+        🏠 Home 🏠
       </button>
         <label>        
         <input
@@ -274,9 +272,8 @@ function App() {
             Next
           </button>
         </div>
-      </div>
-
-  )
+      </ApolloProvider>
+  );
 }
 
 export default App

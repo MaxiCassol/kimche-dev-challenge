@@ -37,6 +37,14 @@ body {
   }
 }
 
+.homeButton{
+  padding: 10px;
+  background-color: #535353;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
 /* Estilos para el detail y el botón de cerrar */
 .modal {
   display: flex;
