@@ -97,31 +97,38 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      <div className="searchContainer">
+      <div className="headerContainer">
+        <div >
         <button 
         className='homeButton'
         onClick={handleHomeButtonClick}
       >
         🏠 Home 🏠
-      </button>
-        <label>        
-        <input
-          type="text"
-          className='search' 
-          placeholder='Search by Name or ID'
-          value={inputSearch}
-          onChange={(e) => setInputSearch(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              handlerSearch();
-            }
-          }}
-        />
-        </label>
-        <button 
-        className='searchButton'
-        onClick={() => handlerSearch()}     
-        >aa🔍aa</button>
+        </button>
+        </div>      
+
+        
+          <div className="search">
+            <label className="searchLabel">        
+            <input
+              type="text"
+              className='searchTerm' 
+              placeholder='Search by Name or ID'
+              value={inputSearch}
+              onChange={(e) => setInputSearch(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handlerSearch();
+                }
+              }}
+            />
+            </label>
+            <button 
+            className='searchButton'
+            onClick={() => handlerSearch()}     
+            >🔍</button>
+          </div>
+        
       </div>
         
     <div className="filterContainer">
