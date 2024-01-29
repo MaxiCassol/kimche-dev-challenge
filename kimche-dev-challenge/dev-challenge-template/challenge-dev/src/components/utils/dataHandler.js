@@ -16,7 +16,7 @@ const dataHandler = async (
   try {
     setLoading(true);
     let data;
-
+console.log(searchTerm);
     
     if (changedFilters) {
       data = await fetchDataWithOptions(

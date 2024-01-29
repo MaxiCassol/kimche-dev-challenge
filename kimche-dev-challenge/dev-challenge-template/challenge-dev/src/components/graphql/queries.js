@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const GET_CHARACTERS = gql`
   query GetCharacters(
@@ -11,10 +11,11 @@ export const GET_CHARACTERS = gql`
     characters(
       page: $page
       filter: {
-      name: $name
-      status: $status
-      species: $species
-      gender: $gender}
+        name: $name
+        status: $status
+        species: $species
+        gender: $gender
+      }
     ) {
       info {
         pages
@@ -31,7 +32,7 @@ export const GET_CHARACTERS = gql`
         }
         origin {
           name
-        }        
+        }
       }
     }
   }

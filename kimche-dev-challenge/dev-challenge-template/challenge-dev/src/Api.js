@@ -10,17 +10,35 @@ export default async function fetchDataWithOptions(
     filterGender,
     searchTerm
     ) {
+
     try {
-        const response = await client.query({
-        query: GET_CHARACTERS,
-        variables: {
-            page: currentPage,
-            name: searchTerm,
-            status: filterStatus,
-            species: filterSpecies,
-            gender: filterGender,
-        },
-        });
+        let variables;
+
+    // Verifica si searchTerm es un número o una cadena
+    if (isNaN(searchTerm)) {
+      // Si es una cadena, busca por nombre
+      variables = {
+        page: currentPage,
+        name: searchTerm,
+        status: filterStatus,
+        species: filterSpecies,
+        gender: filterGender,
+      };
+    } else {
+      // Si es un número, busca por ID
+      variables = {
+        page: currentPage,
+        id: searchTerm,
+        status: filterStatus,
+        species: filterSpecies,
+        gender: filterGender,
+      };
+    }
+
+    const response = await client.query({
+      query: GET_CHARACTERS,
+      variables,
+    });
 
         return response.data.characters;
     } catch (error) {
@@ -35,7 +53,6 @@ export default async function fetchDataWithOptions(
 // export async function fetchDataWithOptions(currentPage, filterStatus, filterSpecies, filterGender, searchTerm) {
 //     try {
 //         let url = `https://rickandmortyapi.com/api/character/?page=${currentPage}&name=${searchTerm}&status=${filterStatus}&species=${filterSpecies}&gender=${filterGender}`
-//         console.log(url);
 
 //         const response = await fetch(url);  
 //         const data = await response.json();
@@ -76,7 +93,6 @@ export async function fetchAllSpecies() {
         }
     });
     const speciesList =  Array.from(uniqueSpecies)
-    // console.log(speciesList);
     return speciesList;
 
 }
