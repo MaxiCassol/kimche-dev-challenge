@@ -196,10 +196,10 @@ function App() {
             </select>          
         </label>
       </div>
-    <button 
-    className="resetButton"
-    onClick={resetFilters}
-    >Reset filters</button> 
+        <button 
+        className="resetButton"
+        onClick={resetFilters}
+        >Reset filters</button> 
       </div>
         
 
