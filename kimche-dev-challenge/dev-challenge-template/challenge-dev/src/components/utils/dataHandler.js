@@ -1,4 +1,4 @@
-import fetchDataWithOptions from '../../Api';
+import fetchDataWithOptions from "../../Api";
 
 const dataHandler = async (
   currentPage,
@@ -16,8 +16,7 @@ const dataHandler = async (
   try {
     setLoading(true);
     let data;
-console.log(searchTerm);
-    
+
     if (changedFilters) {
       data = await fetchDataWithOptions(
         1,
@@ -42,10 +41,10 @@ console.log(searchTerm);
       setCharacters(data.results);
       setTotalPages(data.info.pages);
     } else {
-      console.error('Datos no válidos:', data);
+      console.error("Datos no válidos:", data);
     }
   } catch (error) {
-    console.error('Error al obtener datos:', error);
+    console.error("Error al obtener datos:", error);
   } finally {
     setLoading(false);
   }
@@ -61,8 +60,6 @@ export default dataHandler;
 //       filterGender,
 //     });
 
-//     console.log("characters: " + characters);
-
 //     setCharacters(characters);
 //     setTotalPages(totalPages);
 //   } catch (error) {
@@ -73,7 +70,6 @@ export default dataHandler;
 // };
 
 // export default dataHandler;
-
 
 // import { fetchDataWithOptions } from '../Api';
 
@@ -95,17 +91,17 @@ export default dataHandler;
 //     let data;
 
 //     if(changedFilters){
-//       data = await fetchDataWithOptions(currentPage = 1, filterStatus, filterSpecies, filterGender, searchTerm);  
+//       data = await fetchDataWithOptions(currentPage = 1, filterStatus, filterSpecies, filterGender, searchTerm);
 //       setCurrentPage(1);
 //       setChangedFilters(false);
 //     }else{
-//       data = await fetchDataWithOptions(currentPage, filterStatus, filterSpecies, filterGender, searchTerm); 
+//       data = await fetchDataWithOptions(currentPage, filterStatus, filterSpecies, filterGender, searchTerm);
 //     }
 
-//     if (data.results) {            
+//     if (data.results) {
 //       setCharacters(data.results);
 //       setTotalPages(data.info.pages);
-      
+
 //       } else {
 //             console.error('Datos no válidos:', data);
 //       }
